@@ -23,6 +23,14 @@ def rotateReverseClock(newCube, cube, xRange, yRange):
             newCube[ye - y][x] = cube[x][y]
 
 
+def updateCube(newCube, cube, lines):
+
+    for src, dest in lines:
+        srcX, srcY = src
+        destX, destY = dest
+        newCube[destX][destY] = cube[srcX][srcY]
+
+
 """
 0 2  3 5  6 8
 000  000  000 0
@@ -46,120 +54,243 @@ def rotateReverseClock(newCube, cube, xRange, yRange):
 # (3,3) ~ (5,5)
 def spinUp(cube, direction):
     newCube = [[cube[x][y] for y in range(9)] for x in range(12)]
-    ## 반시계
+    lines = []
     if direction == "-":
-        # 면 회전
         rotateReverseClock(newCube, cube, (3, 5), (3, 5))
-        ## 위쪽 -> 왼쪽
-        newCube[5][2], newCube[4][2], newCube[3][2] = cube[2][3], cube[2][4], cube[2][5]
-
-        ## 오른쪽 -> 위쪽
-        newCube[5][2], newCube[4][2], newCube[3][2] = cube[2][3], cube[2][4], cube[2][5]
-
-        ## 왼쪽 -> 아래쪽
-        newCube[5][2], newCube[4][2], newCube[3][2] = cube[2][3], cube[2][4], cube[2][5]
-
-        ## 아래쪽 -> 위쪽
-        newCube[5][2], newCube[4][2], newCube[3][2] = cube[2][3], cube[2][4], cube[2][5]
-
-    ## 시계
+        lines = [
+            # 위쪽 -> 왼쪽
+            ((2, 3), (5, 2)),
+            ((2, 4), (4, 2)),
+            ((2, 5), (3, 2)),
+            # 왼쪽 -> 아래쪽
+            ((3, 2), (6, 3)),
+            ((4, 2), (6, 4)),
+            ((5, 2), (6, 5)),
+            # 아래쪽 -> 오른쪽
+            ((6, 3), (5, 6)),
+            ((6, 4), (4, 6)),
+            ((6, 5), (3, 6)),
+            # 오른쪽 -> 위쪽
+            ((3, 6), (2, 3)),
+            ((4, 6), (2, 4)),
+            ((5, 6), (2, 5)),
+        ]
     else:
-        # 면 회전
         rotateClock(newCube, cube, (3, 5), (3, 5))
-        ## 위쪽 -> 오른쪽
-        newCube[5][2], newCube[4][2], newCube[3][2] = cube[2][3], cube[2][4], cube[2][5]
-
-        ## 오른쪽 -> 아래쪽
-        newCube[5][2], newCube[4][2], newCube[3][2] = cube[2][3], cube[2][4], cube[2][5]
-
-        ## 왼쪽 -> 위쪽
-        newCube[5][2], newCube[4][2], newCube[3][2] = cube[2][3], cube[2][4], cube[2][5]
-
-        ## 아래쪽 -> 왼쪽
-        newCube[5][2], newCube[4][2], newCube[3][2] = cube[2][3], cube[2][4], cube[2][5]
-
+        lines = [
+            # 위쪽 -> 오른쪽
+            ((2, 3), (3, 6)),
+            ((2, 4), (4, 6)),
+            ((2, 5), (5, 6)),
+            # 오른쪽 -> 아래쪽
+            ((3, 6), (6, 5)),
+            ((4, 6), (6, 4)),
+            ((5, 6), (6, 3)),
+            # 아래쪽 -> 왼쪽
+            ((6, 5), (5, 2)),
+            ((6, 4), (4, 2)),
+            ((6, 3), (3, 2)),
+            # 왼쪽 -> 위쪽
+            ((5, 2), (2, 3)),
+            ((4, 2), (2, 4)),
+            ((3, 2), (2, 5)),
+        ]
+    updateCube(newCube, lines)
     return newCube
 
 
 # (9,3) ~ (11,5)
 def spinDown(cube, direction):
-    newCube = [[cube[x][y] for y in range(9)] for x in range(12)]
-    ## 반시계
+    newCube = [row[:] for row in cube]
     if direction == "-":
-        # 면 회전
         rotateReverseClock(newCube, cube, (9, 11), (3, 5))
-
-    ## 시계
+        lines = [
+            ((8, 3), (5, 0)),
+            ((8, 4), (4, 0)),
+            ((8, 5), (3, 0)),  # 위 → 왼
+            ((5, 0), (0, 5)),
+            ((4, 0), (0, 4)),
+            ((3, 0), (0, 3)),  # 왼 → 아래
+            ((0, 5), (3, 8)),
+            ((0, 4), (4, 8)),
+            ((0, 3), (5, 8)),  # 아래 → 오른
+            ((3, 8), (8, 3)),
+            ((4, 8), (8, 4)),
+            ((5, 8), (8, 5)),  # 오른 → 위
+        ]
     else:
-        # 면 회전
         rotateClock(newCube, cube, (9, 11), (3, 5))
-
+        lines = [
+            ((8, 3), (3, 8)),
+            ((8, 4), (4, 8)),
+            ((8, 5), (5, 8)),  # 위 → 오른
+            ((3, 8), (0, 5)),
+            ((4, 8), (0, 4)),
+            ((5, 8), (0, 3)),  # 오른 → 아래
+            ((0, 5), (5, 0)),
+            ((0, 4), (4, 0)),
+            ((0, 3), (3, 0)),  # 아래 → 왼
+            ((5, 0), (8, 3)),
+            ((4, 0), (8, 4)),
+            ((3, 0), (8, 5)),  # 왼 → 위
+        ]
+    updateCube(newCube, lines)
     return newCube
 
 
 # (6,3) ~ (8,5)
 def spinFront(cube, direction):
-    newCube = [[cube[x][y] for y in range(9)] for x in range(12)]
-    ## 반시계
+    newCube = [row[:] for row in cube]
     if direction == "-":
-        # 면 회전
         rotateReverseClock(newCube, cube, (6, 8), (3, 5))
-
-    ## 시계
+        lines = [
+            ((3, 3), (5, 0)),
+            ((3, 4), (4, 0)),
+            ((3, 5), (3, 0)),  # 위 → 왼
+            ((5, 0), (9, 3)),
+            ((4, 0), (9, 4)),
+            ((3, 0), (9, 5)),  # 왼 → 아래
+            ((9, 3), (5, 6)),
+            ((9, 4), (4, 6)),
+            ((9, 5), (3, 6)),  # 아래 → 오른
+            ((5, 6), (3, 3)),
+            ((4, 6), (3, 4)),
+            ((3, 6), (3, 5)),  # 오른 → 위
+        ]
     else:
-        # 면 회전
         rotateClock(newCube, cube, (6, 8), (3, 5))
-
+        lines = [
+            ((3, 3), (5, 6)),
+            ((3, 4), (4, 6)),
+            ((3, 5), (3, 6)),  # 위 → 오른
+            ((5, 6), (9, 5)),
+            ((4, 6), (9, 4)),
+            ((3, 6), (9, 3)),  # 오른 → 아래
+            ((9, 5), (5, 0)),
+            ((9, 4), (4, 0)),
+            ((9, 3), (3, 0)),  # 아래 → 왼
+            ((5, 0), (3, 3)),
+            ((4, 0), (3, 4)),
+            ((3, 0), (3, 5)),  # 왼 → 위
+        ]
+    updateCube(newCube, lines)
     return newCube
 
 
 # (0,3) ~ (2,5)
 def spinBack(cube, direction):
-    newCube = [[cube[x][y] for y in range(9)] for x in range(12)]
-    ## 반시계
+    newCube = [row[:] for row in cube]
     if direction == "-":
-        # 면 회전
         rotateReverseClock(newCube, cube, (0, 2), (3, 5))
-
-    ## 시계
+        lines = [
+            ((3, 3), (5, 6)),
+            ((3, 4), (4, 6)),
+            ((3, 5), (3, 6)),  # 위 → 오른
+            ((5, 6), (11, 5)),
+            ((4, 6), (11, 4)),
+            ((3, 6), (11, 3)),  # 오른 → 아래
+            ((11, 5), (5, 0)),
+            ((11, 4), (4, 0)),
+            ((11, 3), (3, 0)),  # 아래 → 왼
+            ((5, 0), (3, 3)),
+            ((4, 0), (3, 4)),
+            ((3, 0), (3, 5)),  # 왼 → 위
+        ]
     else:
-        # 면 회전
         rotateClock(newCube, cube, (0, 2), (3, 5))
-
+        lines = [
+            ((3, 3), (5, 0)),
+            ((3, 4), (4, 0)),
+            ((3, 5), (3, 0)),  # 위 → 왼
+            ((5, 0), (11, 3)),
+            ((4, 0), (11, 4)),
+            ((3, 0), (11, 5)),  # 왼 → 아래
+            ((11, 3), (5, 6)),
+            ((11, 4), (4, 6)),
+            ((11, 5), (3, 6)),  # 아래 → 오른
+            ((5, 6), (3, 3)),
+            ((4, 6), (3, 4)),
+            ((3, 6), (3, 5)),  # 오른 → 위
+        ]
+    updateCube(newCube, lines)
     return newCube
 
 
 # (3,0) ~ (5,2)
 def spinLeft(cube, direction):
-
-    newCube = [[cube[x][y] for y in range(9)] for x in range(12)]
-    ## 반시계
+    newCube = [row[:] for row in cube]
     if direction == "-":
-        # 면 회전
         rotateReverseClock(newCube, cube, (3, 5), (0, 2))
-
-    ## 시계
+        lines = [
+            ((3, 0), (5, 2)),
+            ((4, 0), (4, 2)),
+            ((5, 0), (3, 2)),  # 위 → 왼
+            ((5, 2), (9, 0)),
+            ((4, 2), (9, 1)),
+            ((3, 2), (9, 2)),  # 왼 → 아래
+            ((9, 0), (5, 6)),
+            ((9, 1), (4, 6)),
+            ((9, 2), (3, 6)),  # 아래 → 오른
+            ((5, 6), (3, 0)),
+            ((4, 6), (4, 0)),
+            ((3, 6), (5, 0)),  # 오른 → 위
+        ]
     else:
-        # 면 회전
         rotateClock(newCube, cube, (3, 5), (0, 2))
-
+        lines = [
+            ((3, 0), (5, 6)),
+            ((4, 0), (4, 6)),
+            ((5, 0), (3, 6)),  # 위 → 오른
+            ((5, 6), (9, 2)),
+            ((4, 6), (9, 1)),
+            ((3, 6), (9, 0)),  # 오른 → 아래
+            ((9, 2), (5, 2)),
+            ((9, 1), (4, 2)),
+            ((9, 0), (3, 2)),  # 아래 → 왼
+            ((5, 2), (3, 0)),
+            ((4, 2), (4, 0)),
+            ((3, 2), (5, 0)),  # 왼 → 위
+        ]
+    updateCube(newCube, lines)
     return newCube
 
 
 # (3,6) ~ (5,8)
 def spinRight(cube, direction):
-
-    newCube = [[cube[x][y] for y in range(9)] for x in range(12)]
-    ## 반시계
+    newCube = [row[:] for row in cube]
     if direction == "-":
-        # 면 회전
         rotateReverseClock(newCube, cube, (3, 5), (6, 8))
-
-    ## 시계
+        lines = [
+            ((3, 6), (5, 8)),
+            ((4, 6), (4, 8)),
+            ((5, 6), (3, 8)),  # 위 → 왼
+            ((5, 8), (9, 6)),
+            ((4, 8), (9, 7)),
+            ((3, 8), (9, 8)),  # 왼 → 아래
+            ((9, 6), (5, 0)),
+            ((9, 7), (4, 0)),
+            ((9, 8), (3, 0)),  # 아래 → 오른
+            ((5, 0), (3, 6)),
+            ((4, 0), (4, 6)),
+            ((3, 0), (5, 6)),  # 오른 → 위
+        ]
     else:
-        # 면 회전
         rotateClock(newCube, cube, (3, 5), (6, 8))
-
+        lines = [
+            ((3, 6), (5, 0)),
+            ((4, 6), (4, 0)),
+            ((5, 6), (3, 0)),  # 위 → 오른
+            ((5, 0), (9, 8)),
+            ((4, 0), (9, 7)),
+            ((3, 0), (9, 6)),  # 오른 → 아래
+            ((9, 8), (5, 8)),
+            ((9, 7), (4, 8)),
+            ((9, 6), (3, 8)),  # 아래 → 왼
+            ((5, 8), (3, 6)),
+            ((4, 8), (4, 6)),
+            ((3, 8), (5, 6)),  # 왼 → 위
+        ]
+    updateCube(newCube, lines)
     return newCube
 
 
