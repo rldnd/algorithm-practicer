@@ -34,7 +34,7 @@ def combination(lst, n):
 s_combination = combination([i for i in range(N)], N // 2)
 
 minimum = 1e9
-
+players = [i for i in range(N)]
 for combs in s_combination:
     combs_count, rest_count = 0, 0
     rest = list(set([i for i in range(N)]) - set(combs))
