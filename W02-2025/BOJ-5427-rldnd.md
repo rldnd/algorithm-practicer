@@ -77,7 +77,11 @@ for _ in range(test_case_count):
     get_escape_road_count()
 ```
 
-- 메모리 초과가 떴다. 배열을 두개 써서 그런가 싶다.
+- 메모리 초과가 떴다. 배열을 두개 써서 그런가 싶다. _~~배열 문제 아니었음~~_
+- bfs의 경우, 어차피 최단 시간의 접근을 생각하기 때문에, minimum을 굳이 사용할 필요는 없다.
+
+1. 사람이 순회할 때 사람이 visit했는지에 대해 체크를 하지 않기 때문에, 사람이 벽에 둘러쌓여있다면 무한루프
+2. `불이 옮겨진 칸 또는 이제 불이 붙으려는 칸으로 이동할 수 없다` 라는 조건이 있기 때문에 per_visit[q_row][q_col] < fire_visit[ny][nx] 조건은 잘못됨.
 
 ## <br>정답 코드
 
@@ -142,5 +146,3 @@ def get_escape_road_count():
 for _ in range(test_case_count):
     get_escape_road_count()
 ```
-
-- 도와주세요
