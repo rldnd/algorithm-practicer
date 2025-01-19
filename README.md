@@ -61,7 +61,7 @@
 | [DFS, BFS](./cheatsheets/dfs-bfs.md) |    1 | 이기웅 |
 | [DP](./cheatsheets/dp.md)            |    2 | 이기웅 |
 | 백트래킹                             |    3 | 이기웅 |
-| 문자열                               |    3 | 김소희 |
+| [문자열](./cheatsheets/string.md)            |    3 | 김소희 |
 
 #### 알고리즘 [빈도수 중]
 
