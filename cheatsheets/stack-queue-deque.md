@@ -14,7 +14,6 @@ stack.append(3) # [1,2,3]
 stack.pop() # [1,2]
 stack.pop() # [1]
 stack.pop() # []
-
 ```
 
 # 큐 (Queue)
