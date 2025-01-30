@@ -1,6 +1,6 @@
-# [WIP] 백트래킹
+# 백트래킹
 
-> ![NOTE]
+> [!NOTE]
 >
 > [재귀](https://blog.encrypted.gg/943) 관련 지식이 선행되어야 함.
 
