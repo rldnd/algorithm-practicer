@@ -1,4 +1,4 @@
-# Dijkstra [다익스트라]
+# Dijkstra [다익스트라]
 
 ## 정의
 
