@@ -68,8 +68,8 @@
 | 알고리즘                                    | 주차 | 작성자 |
 | ------------------------------------------- | ---: | ------ |
 | [이분 탐색](./cheatsheets/binary-search.md) |    4 | 이기웅 |
-| [다익스트라](./cheatsheets/dijkstra.md)  |    4 | 김소희 |
-| 투 포인터                                   |    5 | 이기웅 |
+| [다익스트라](./cheatsheets/dijkstra.md)     |    4 | 김소희 |
+| [투 포인터](./cheatsheets/two-pointer.md)   |    5 | 이기웅 |
 
 #### 알고리즘 [빈도수 하]
 
